@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Comments</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
+    <body>  
+        <a href='feed'>Back</a><br/>
+        <a href='login'>Logout</a>
+        <div id='comments'></div>
+        
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+                    $.ajax({
+                        url:"./controller/comment.php",
+                        type:"post",
+                        dataType:"json",
+                        data: {
+                            method:"getusercomments",
+                            user_id:sessionStorage.user_id,
+                            image_id:sessionStorage.image_id,
+                            id:sessionStorage.id
+                        },
+                        success:function(resp){
+                            for(var i = 0; i < resp.length; i++) {
+                            var thediv = document.getElementById("comments");
+                            var div = document.createElement("div");
+                            var name = document.createElement("h4");
+                            var commentinput = document.createElement("input");
+                            var editcomment = document.createElement("button");
+                            var deletecomment = document.createElement("button");  
+                            editcomment.innerHTML = "Edit";
+                            deletecomment.innerHTML = "Delete";    
+                                
+                            thediv.appendChild(div);
+                            div.appendChild(name);
+                            div.appendChild(commentinput);
+                            div.appendChild(editcomment);
+                            div.appendChild(deletecomment);
+                                
+                            name.innerHTML = resp[i].username;
+                            commentinput.value = resp[i].comment; 
+                            commentinput.id = resp[i].id;
+                                
+                            console.log(sessionStorage.user_id);
+                            console.log(commentinput.id);
+                            //console.log(sessionStorage.id);
+
+                        $(editcomment).click(function(){
+                        
+                        $.ajax({
+                            url:"./controller/comment.php",
+                            type:"post",
+                            dataType:"json",
+                            data: {
+                                method:"updatecomment",
+                                user_id:sessionStorage.user_id,
+                                image_id:sessionStorage.image_id,
+                                id:commentinput.id,
+                                comment: $(commentinput).val()
+                            },
+                            success:function(){
+                                location.replace("comments");
+                                
+                            }
+                        });
+                      });
+                        
+                        $(deletecomment).click(function(){
+                        
+                        $.ajax({
+                            url:"./controller/comment.php",
+                            type:"post",
+                            dataType:"json",
+                            data: {
+                                method:"deletecomment",
+                                id:commentinput.id
+                            },
+                            success:function(){
+                                location.replace("comments");
+                            }
+                        });
+                      });
+                    
+                            }
+                            
+                        }
+                     });
+            
+        });
+    </script>
+</html>

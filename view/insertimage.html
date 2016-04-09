@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Insert Image</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
+    <body> 
+    <a href='feed'>Back</a><br/>    
+        <section class="loginsection">
+        <input type='text' id='title' placeholder='Image Title' />
+        <input type='text' id='path' placeholder='Image Path' />
+        <input id='description' placeholder='Description'></input><br/>
+        <button id='insertimg'>Insert Image</button>
+        </section>
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+            
+            document.getElementById("insertimg").onclick = function(){
+                $.ajax({
+                    url:"./controller/image.php",
+                    type:"post",
+                    dataType:"html",
+                    data: {
+                        method:"insert",
+                        title:document.getElementById("title").value,
+                        path:document.getElementById("path").value,
+                        user_id: sessionStorage.user_id,
+                        description:document.getElementById("description").value
+                    },
+                    success:function(resp){
+                        location.replace("feed");
+                        
+                    }
+                });
+            }
+        });
+    </script>
+</html>

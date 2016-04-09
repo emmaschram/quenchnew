@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Feed</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
+    <body>  
+        <a href='feed'>Back</a><br/>
+        <a href='login'>Logout</a>
+        <div id='myfeed'></div>
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+                $.ajax({
+                    url:"./controller/image.php",
+                    type:"post",
+                    dataType:"json",
+                    data: {
+                        method:"getuserimage",
+                        user_id:sessionStorage.user_id
+                    },
+                    success:function(resp){
+                        for(var i = 0; i < resp.length; i++) {
+                        var myfeed = document.getElementById("myfeed");
+                        var div = document.createElement("div");
+                        var image = document.createElement("img");
+                            
+                        image.src = resp[i].path;
+                        image.id = resp[i].id;    
+                            
+                        myfeed.appendChild(div);
+                        div.appendChild(image);   
+                            
+                        $(image).click(function() {
+                            sessionStorage.image_id = $(this).attr("id");
+                            location.replace("aboutimage");
+                        });
+                            
+                        }
+                    }
+                });
+        });
+    </script>
+</html>

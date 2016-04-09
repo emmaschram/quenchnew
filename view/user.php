@@ -1,0 +1,40 @@
+<?php
+include("sessionstart.php");
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <body>
+    <section class='loginsection'>   
+        <h1>Register</h1>
+        <input type='text' id='username' placeholder='username' />
+        <input type='text' id='password' placeholder='password' />
+        <button id='register'>Register</button></br></br>
+        <span>Already have an account? <a href='login'>Login</a></span>
+    </section>     
+    </body>
+    
+    <script>
+        $(document).ready(function(){  
+            document.getElementById("register").onclick = function(){  
+            $.ajax({
+                url:"./controller/user.php",
+                type:"post",
+                dataType:"html",
+                data: {
+                    method:"insert",
+                    username: document.getElementById("username").value,
+                    password: document.getElementById("password").value
+                },
+                success:function(resp){
+                    location.replace("login");
+                }
+            });
+            }
+        });
+    </script>
+</html>

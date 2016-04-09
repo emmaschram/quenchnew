@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>About Image</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    
+    <body>  
+        <a href='feed'>Back</a><br/>
+        <img id='image' src=''/>
+        <input id='title' type='text' value=''/>
+        <input id='description'></input>
+        <button id='editbutton'>Edit</button>
+        <button id='delete'>Delete</button>
+    
+    </body>
+    
+    <script>
+        $(document).ready(function(){
+                $.ajax({
+                    url:"./controller/image.php",
+                    type:"post",
+                    dataType:"json",
+                    data: {
+                        method:"getsingleimage",
+                        image_id:sessionStorage.image_id
+                    },
+                    success:function(resp){
+                        console.log(resp);
+                        
+                        var image = document.getElementById("image");
+                        var title = document.getElementById("title");
+                        var description = document.getElementById("description");
+                        var editbutton = document.getElementById("editbutton");
+                        var deletebutton = document.getElementById("deletebutton");
+                        
+                        image.src = resp[0].path;
+                        title.value = resp[0].title;
+                        description.value = resp[0].description;
+
+                        $(editbutton).click(function(){
+                        
+                        $.ajax({
+                            url:"./controller/image.php",
+                            type:"post",
+                            dataType:"json",
+                            data: {
+                                method:"update",
+                                image_id:sessionStorage.image_id,
+                                title: $(title).val(),
+                                description: $(description).val()
+                            },
+                            success:function(){
+                                location.replace("userfeed");
+                            }
+                        });
+                      });
+                        
+                        $(deletebutton).click(function(){
+                        
+                        $.ajax({
+                            url:"./controller/image.php",
+                            type:"post",
+                            dataType:"json",
+                            data: {
+                                method:"delete",
+                                image_id:sessionStorage.image_id
+                            },
+                            success:function(){
+                                location.replace("userfeed");
+                            }
+                        });
+                      });
+                    }
+                });
+        });
+    </script>
+</html>
