@@ -17,7 +17,6 @@
     </body>
     
     <script>
-<<<<<<< HEAD:view/login.html
         $(document).ready(function(){
             sessionStorage.user_id = -1;
             document.getElementById("login").onclick = function(){
@@ -36,36 +35,8 @@
                         location.replace("feed");
                     }
                 });
-=======
-      $(document).ready(function(){
-            //var user_id = 1;
-            document.getElementById('sub').onclick = function(){
-            $.ajax({
-               url:"model/loggingin.php",
-                type:"POST",
-                dataType:"json",
-                data: {
-                    username: document.getElementById('username').value,
-                    password: document.getElementById('password').value
-                },
-                success:function(resp){
-                    alert("Logged in!");
-                    window.location.replace("#/feed");
-                    user_id = resp[0].id;
-
-                },
-                error: function (resp){
-                    alert("error");
-                }
-            });
-            
->>>>>>> origin/master:view/login.php
             }
 
-<<<<<<< HEAD:view/login.html
         });
     </script>
 </html>
-=======
-</html>
->>>>>>> origin/master:view/login.php
